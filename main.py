@@ -1,24 +1,18 @@
-import os
+
 import telebot
+import os
 
 BOT_TOKEN = os.getenv("BOT_TOKEN")
-OWNER_ID = int(os.getenv("OWNER_ID"))
+ADMIN_ID = os.getenv("ADMIN_ID")
 
 bot = telebot.TeleBot(BOT_TOKEN)
 
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
-    if message.from_user.id != OWNER_ID:
-        bot.reply_to(message, "⛔ دسترسی غیرمجاز")
-        return
-    bot.reply_to(message, "🤖 ربات فعال است و فقط در اختیار شماست")
+    bot.reply_to(message, "سلام! به ربات خوش اومدی 🤖")
 
-@bot.message_handler(func=lambda m: True)
+@bot.message_handler(func=lambda message: True)
 def echo_all(message):
-    if message.from_user.id != OWNER_ID:
-        return
-    bot.reply_to(message, f"📩 پیام دریافت شد:
-{message.text}")
+    bot.reply_to(message, f"📩 پیام دریافت شد")
 
-print("ربات در حال اجراست...")
 bot.infinity_polling()
